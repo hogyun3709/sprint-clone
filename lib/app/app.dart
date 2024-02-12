@@ -26,5 +26,6 @@ import 'package:stacked_services/stacked_services.dart';
     StackedDialog(classType: InfoAlertDialog),
     // @stacked-dialog
   ],
+  logger: StackedLogger(),
 )
 class App {}
