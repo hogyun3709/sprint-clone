@@ -12,6 +12,7 @@ class OnboardingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder.reactive(
+        onDispose: (viewModel) => viewModel.disposeAll(),
         viewModelBuilder: () => OnboardingViewModel(),
         builder: (context, viewModel, child) => Stack(
               children: [
@@ -37,7 +38,7 @@ class OnboardingView extends StatelessWidget {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Padding(  
+                    Padding(
                       padding: const EdgeInsets.symmetric(
                           vertical: 28, horizontal: 20),
                       child: CuiButton(
