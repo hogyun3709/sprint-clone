@@ -12,47 +12,60 @@ class OnboardingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder.reactive(
+        onViewModelReady: (viewModel) => viewModel.init(),
         onDispose: (viewModel) => viewModel.disposeAll(),
         viewModelBuilder: () => OnboardingViewModel(),
         builder: (context, viewModel, child) => Stack(
               children: [
-                SizedBox(
-                    height: screenHeight(context),
-                    child: PageView.builder(
-                        onPageChanged: (value) =>
-                            {viewModel.updateCurrentPage(value)},
-                        itemCount: viewModel.onBoardingContents.length,
-                        controller: viewModel.pageController,
-                        scrollDirection: Axis.vertical,
-                        itemBuilder: (context, index) {
-                          return SizedBox(
-                              width: screenWidth(context),
-                              child: OnBoardingSection(
-                                data: viewModel.onBoardingContents[index],
-                                numOfItemToShow: 3,
-                                titleStyle: const TextStyle(
-                                    fontSize: 28, fontWeight: FontWeight.bold),
-                                descriptionStyle: const TextStyle(fontSize: 16),
-                              ));
-                        })),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 28, horizontal: 20),
-                      child: CuiButton(
-                        onTap: () {
-                          viewModel.pageController.nextPage(
-                              duration: const Duration(milliseconds: 500),
-                              curve: Curves.easeInOut);
-                        },
-                        title: viewModel.getContentButtonTitle(),
-                        backgroundColor: const Color(0xFFd3605b),
-                      ),
-                    )
-                  ],
-                )
+                Visibility(
+                    visible: viewModel.userOnboardingStatus,
+                    child: Center(
+                      child: Text("Hello Login"),
+                    )),
+                Visibility(
+                  visible: !viewModel.userOnboardingStatus,
+                  child: Stack(
+                    children: [
+                      SizedBox(
+                          height: screenHeight(context),
+                          child: PageView.builder(
+                              onPageChanged: (value) =>
+                                  {viewModel.updateCurrentPage(value)},
+                              itemCount: viewModel.onBoardingContents.length,
+                              controller: viewModel.pageController,
+                              scrollDirection: Axis.vertical,
+                              itemBuilder: (context, index) {
+                                return SizedBox(
+                                    width: screenWidth(context),
+                                    child: OnBoardingSection(
+                                      data: viewModel.onBoardingContents[index],
+                                      numOfItemToShow: 3,
+                                      titleStyle: const TextStyle(
+                                          fontSize: 28,
+                                          fontWeight: FontWeight.bold),
+                                      descriptionStyle:
+                                          const TextStyle(fontSize: 16),
+                                    ));
+                              })),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 28, horizontal: 20),
+                            child: CuiButton(
+                              onTap: () {
+                                viewModel.moveNextStep();
+                              },
+                              title: viewModel.getContentButtonTitle(),
+                              backgroundColor: const Color(0xFFd3605b),
+                            ),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ),
               ],
             ));
   }
