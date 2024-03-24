@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sprint_clone/ui/common/components/cui_button.dart';
 import 'package:sprint_clone/ui/common/ui_helpers.dart';
+import 'package:sprint_clone/ui/views/login/login_view.dart';
 import 'package:sprint_clone/ui/views/on_boarding/components/onboarding_section.dart';
 import 'package:stacked/stacked.dart';
 
@@ -19,9 +20,7 @@ class OnboardingView extends StatelessWidget {
               children: [
                 Visibility(
                     visible: viewModel.userOnboardingStatus,
-                    child: Center(
-                      child: Text("Hello Login"),
-                    )),
+                    child: LoginView()),
                 Visibility(
                   visible: !viewModel.userOnboardingStatus,
                   child: Stack(
